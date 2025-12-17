@@ -98,14 +98,19 @@ $(document).ready(function () {
         form.find('button[type="submit"]').prop('disabled', true);
       },
       success: function (response) {
-        if (response.success) {
-          // Éxito: El servidor ha gestionado la sesión. Recargar la interfaz completa.
-          window.location.reload();
-        } else {
-          // Fallo: Mostrar el mensaje de error devuelto por PHP
-          errorDisplay.html('<i class="fa fa-close"></i> ' + response.message);
-        }
-      },
+    // A veces la respuesta llega como texto, esto asegura que sea un objeto
+    if (typeof response === 'string') {
+        response = JSON.parse(response);
+    }
+
+    if (response.success) {
+        // CORRECCIÓN: En lugar de recargar (reload), vamos a la URL que dijo el PHP
+        window.location.href = response.redirect;
+    } else {
+        // Fallo: Mostrar el mensaje de error
+        errorDisplay.html('<i class="fa fa-close"></i> ' + response.message);
+    }
+},
       error: function () {
         errorDisplay.html('<i class="fa fa-close"></i> Error de comunicación con el servidor.');
       },

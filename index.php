@@ -69,7 +69,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'login') {
             $error_login = "<span class='error'>Email/Contraseña inválida</span>";
             $response['message'] = $error_login;
         } else {
+            $row = $result->fetch_array(MYSQLI_ASSOC);
             $_SESSION["user"] = $user_login;
+            $_SESSION["rol"] = $row['rol'] ?? 'cliente'; // Guardamos el rol en sesión
             $loggedin = TRUE;
             $userstr = " ($user_login)";
 
@@ -83,6 +85,12 @@ if (isset($_POST['action']) && $_POST['action'] == 'login') {
 
             $response['success'] = true;
             $response['message'] = "Acceso exitoso. Redireccionando...";
+
+            if (isset($row['rol']) && $row['rol'] == 'empleado') {
+                $response['redirect'] = 'dffourfiun.php'; // Intranet
+            } else {
+                $response['redirect'] = 'index.php'; // Usuario normal
+            }
         }
     }
     // Si la solicitud es AJAX (desde el código jQuery), enviamos la respuesta JSON
@@ -146,7 +154,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'signup') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" href="./assets/img/Logo.png">
-    <title>EcoPower</title>
+    <title>EcoPower SPA</title>
 
     <style>
         .event-card {
@@ -386,7 +394,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'signup') {
                     <h2 class="text-center mb-4">Contacto</h2>
                     <p class="text-center mb-4">
                         ¿Tienes dudas, sugerencias o quieres colaborar? Escríbenos a <a
-                            href="mailto:info@ecopower.com">info@ecopower.com</a> o llámanos al +34 656 122 327.
+                            href="mailto:info@coffeemap.com">info@coffeemap.com</a> o llámanos al +34 656 122 327.
                     </p>
                     <div class="row justify-content-center">
                         <div class="col-md-6 text-center">

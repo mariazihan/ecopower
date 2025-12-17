@@ -7,10 +7,10 @@
  * @author ander_frago@cuatrovientos.org
  */
 
-$dbhost  = 'localhost';    // Probablemente no necesite modificación
+$dbhost  = 'db';    // Probablemente no necesite modificación
 $dbname  = 'proy1v1procesoregistro';   // Modificar esto..
 $dbuser  = 'root';   // ...las variables según
-$dbpass  = '';   // ...tu instalación
+$dbpass  = 'root';   // ...tu instalación
 $appname = "Artean"; // ...y configuración
 
 // Cuando se llama a este script se realiza la conexión con la base de datos
